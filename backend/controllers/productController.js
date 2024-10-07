@@ -14,6 +14,14 @@ const allProducts = async (req, res) => {
   });
 };
 
+const adminProducts = async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).json({
+    products,
+  });
+};
+
 const detailProduct = async (req, res) => {
   const product = await Product.findById(req.params.id);
 
@@ -43,6 +51,7 @@ const createProduct = async (req, res, next) => {
   }
 
   req.body.images = allImage;
+  req.body.user = req.user.id;
 
   const product = await Product.create(req.body);
 
@@ -134,5 +143,6 @@ module.exports = {
   createProduct,
   deleteProduct,
   updateProduct,
-  createReview
+  createReview,
+  adminProducts,
 };
